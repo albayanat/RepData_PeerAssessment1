@@ -33,7 +33,6 @@ unzip("activity.zip")
 df_activity_all<-read.csv("activity.csv", stringsAsFactors = FALSE)
 ## Transform the data
 df_activity_all$date<-as.Date(df_activity_all$date)
-
 ## Display data and sumary
 head(df_activity_all, 10)
 summary(df_activity_all)
@@ -67,7 +66,6 @@ hist(df_total_day$total, xlab="Number of steps per day", main="Distribution of t
 ```{r}
 ## run the summary
 summary(df_total_day)
-
 ##compute mean and median
 mean_total_steps<-mean(df_total_day$total)
 median_total_steps<-median(df_total_day$total)
@@ -84,7 +82,6 @@ The median total number of steps taken per day is: `r as.integer(median_total_st
 ```{r}
 ##compute average number of steps for each intervals accross all days
 df_average_steps<-aggregate(steps~interval, df_activity_all, FUN=mean)
-
 ##Plot the time series
 plot(df_average_steps, type="l", ylab="average number of steps per interval", main="Average number of steps accross all days")
 ```
@@ -94,11 +91,8 @@ plot(df_average_steps, type="l", ylab="average number of steps per interval", ma
 ```{r}
 ## print summary
 summary(df_average_steps)
-
 ## find the 5-minute interval for which the max is attained 
-
 max_inter<-df_average_steps[which.max(df_average_steps$steps),]$interval
-
 ```
 The interval `r max_inter ` contains the maximum number of steps, on average accross all the days in the dataset
 
@@ -143,18 +137,14 @@ summary(df_activity_filled)
 4. Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 ```{r}
-
 ##Compute total number of steps for each date in the dataset
 df_total_day_filled<-group_by(df_activity_filled, date)
 df_total_day_filled<-summarise(df_total_day_filled, total=sum(steps))
-
 ## print histogram
 hist(df_total_day_filled$total, xlab="Number of steps per day", main="Distribution of total number of steps per day (filled missing values")
-
 #Compute mean and median
 mean_total_steps_filled<-mean(df_total_day_filled$total)
 median_total_steps_filled<-median(df_total_day_filled$total)
-
 diff_mean<-mean_total_steps_filled - mean_total_steps
 diff_med<-median_total_steps_filled - median_total_steps
 ```
@@ -182,12 +172,10 @@ df_activity_filled[df_activity_filled$type_of_day !="weekend",]$type_of_day<-"we
 ```{r}
 ##compute average number of steps for each intervals and each type of day accross all days 
 df_average_type_day<-aggregate(steps ~ interval + type_of_day, df_activity_filled, FUN=mean)
-
 ##plotting
 plot_av_inter_type_day<-ggplot(df_average_type_day, aes(interval, steps))
 plot_av_inter_type_day<-plot_av_inter_type_day+geom_line()
 plot_av_inter_type_day<-plot_av_inter_type_day+facet_grid(rows=vars(type_of_day))
-lot_av_inter_type_day<-plot_av_inter_type_day+labs(y="average number of steps accross all days", title="Average number of steps per interval, accross all days")
+plot_av_inter_type_day<-plot_av_inter_type_day+labs(y="average number of steps accross all days", title="Average number of steps per interval, accross all days")
 print(plot_av_inter_type_day)
 ```
-
